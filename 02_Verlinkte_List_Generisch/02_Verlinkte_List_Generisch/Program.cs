@@ -33,11 +33,33 @@ namespace _02_Verlinkte_Listen_Generisch
             newEntry.next = firstEntry;
             firstEntry = newEntry;
         }
-        
-		// TODO: Output(): Gibt alle Einträge auf der Konsole aus
-		
-		// TODO: Pop(): Löscht das zuletzt eingefügte Element und gibt es an den Aufrufer zurück
-		
+
+        // TODO: Output(): Gibt alle Einträge auf der Konsole aus
+        public void Output()
+        {
+            ListEntry entry = firstEntry;
+            while (entry != null)
+            {
+                Console.WriteLine(entry.data);
+                entry = entry.next;
+            }
+        }
+
+
+        // TODO: Pop(): Löscht das zuletzt eingefügte Element und gibt es an den Aufrufer zurück
+
+        public object Pop()
+        {
+            if (firstEntry == null)
+                return null; // oder Fehler
+
+            ListEntry entry = firstEntry;
+            firstEntry = firstEntry.next;
+            return entry.data;
+        }
+
+
+
     }
     class ListEntry
     {
