@@ -113,6 +113,43 @@ namespace _02_Verlinkte_Listen_Generisch
             }
         }
 
+
+        public void ShiftFwd(int numElements)
+        {
+            int n = Count;
+            if (n == 0 || numElements % n == 0) return;
+
+            numElements = numElements % n;
+
+            // Liste in Kreis verwandeln
+            ListEntry<T> last = firstEntry;
+            while (last.Next != null)
+            {
+                last = last.Next;
+            }
+            last.Next = firstEntry; // Kreis schließen
+
+            // Neuen Startknoten finden
+            int stepsToNewHead = numElements;
+            ListEntry<T> newLast = firstEntry;
+            for (int i = 0; i < stepsToNewHead - 1; i++)
+            {
+                newLast = newLast.Next;
+            }
+
+            firstEntry = newLast.Next;
+            newLast.Next = null; // Kreis wieder aufbrechen
+        }
+        public void ShiftBwd(int numElements)
+        {
+            int n = Count;
+            if (n == 0 || numElements % n == 0) return;
+
+            numElements = numElements % n;
+
+            // Shift nach hinten um k == Shift nach vorne um (n - k)
+            ShiftFwd(n - numElements);
+        }
     }
     class ListEntry<T>
     {
