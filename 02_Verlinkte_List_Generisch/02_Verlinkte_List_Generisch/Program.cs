@@ -98,6 +98,8 @@ namespace _02_Verlinkte_Listen_Generisch
             list.Output();
 
             Console.WriteLine("Suche ersten String:" + list.FindFirst(new FindStringSelector()));
+
+            Console.ReadKey();
         }
     }
 }
