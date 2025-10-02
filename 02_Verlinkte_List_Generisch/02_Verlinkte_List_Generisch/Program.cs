@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _02_Verlinkte_List_Generisch;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,15 +52,27 @@ namespace _02_Verlinkte_Listen_Generisch
         public object Pop()
         {
             if (firstEntry == null)
-                return null; // oder Fehler
+                return null; 
 
             ListEntry entry = firstEntry;
             firstEntry = firstEntry.next;
             return entry.data;
         }
+        public object FindFirst(ISelector selector)
+        {
+            ListEntry entry = firstEntry;
 
+            while (entry != null)
+            {
+                if (selector.Select(entry.data))
+                {
+                    return entry.data; 
+                }
+                entry = entry.next;
+            }
 
-
+            return null; 
+        }
     }
     class ListEntry
     {
@@ -83,6 +96,8 @@ namespace _02_Verlinkte_Listen_Generisch
             list.Output();
             Console.WriteLine("Pop Item: " + list.Pop());
             list.Output();
+
+            Console.WriteLine("Suche ersten String:" + list.FindFirst(new FindStringSelector()));
         }
     }
 }
