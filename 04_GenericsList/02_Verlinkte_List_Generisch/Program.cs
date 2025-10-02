@@ -8,41 +8,41 @@ using System.Threading.Tasks;
 
 namespace _02_Verlinkte_Listen_Generisch
 {
-    class GenericList
+    class GenericList<T>
     {
         public int Count
         {
             get
             {
                 int count = 0;
-                ListEntry entry = firstEntry;
+                ListEntry<T> entry = firstEntry;
 
                 while (entry != null)
                 {
                     count++;
-                    entry = entry.next;
+                    entry = entry.Next;
                 }
                 return count;
             }
         }
 
-        private ListEntry firstEntry = null;
+        private ListEntry<T> firstEntry = null;
 
-        public void Add(Object data)
+        public void Add(T data)
         {
-            ListEntry newEntry = new ListEntry(data);
-            newEntry.next = firstEntry;
+            ListEntry<T> newEntry = new ListEntry<T>(data);
+            newEntry.Next = firstEntry;
             firstEntry = newEntry;
         }
 
         // TODO: Output(): Gibt alle Einträge auf der Konsole aus
         public void Output()
         {
-            ListEntry entry = firstEntry;
+            ListEntry<T> entry = firstEntry;
             while (entry != null)
             {
-                Console.WriteLine(entry.data);
-                entry = entry.next;
+                Console.WriteLine(entry.Data);
+                entry = entry.Next;
             }
         }
 
@@ -54,38 +54,38 @@ namespace _02_Verlinkte_Listen_Generisch
             if (firstEntry == null)
                 return null; 
 
-            ListEntry entry = firstEntry;
-            firstEntry = firstEntry.next;
-            return entry.data;
+            ListEntry<T> entry = firstEntry;
+            firstEntry = firstEntry.Next;
+            return entry.Data;
         }
         public object FindFirst(ISelector selector)
         {
-            ListEntry entry = firstEntry;
+            ListEntry<T> entry = firstEntry;
 
             while (entry != null)
             {
-                if (selector.Select(entry.data))
+                if (selector.Select(entry.Data))
                 {
-                    return entry.data; 
+                    return entry.Data; 
                 }
-                entry = entry.next;
-            }
+                entry = entry.Next;
+            }   
 
             return null; 
         }
 
-        public GenericList FindAll(ISelector selector)
+        public GenericList<T> FindAll(ISelector selector)
         {
-            GenericList result = new GenericList();
-            ListEntry entry = firstEntry;
+            GenericList<T> result = new GenericList<T>();
+            ListEntry<T> entry = firstEntry;
 
             while (entry != null)
             {
-                if (selector.Select(entry.data)) 
+                if (selector.Select(entry.Data)) 
                 {
-                    result.Add(entry.data);
+                    result.Add(entry.Data);
                 }
-                entry = entry.next;
+                entry = entry.Next;
             }
 
             return result;
@@ -93,59 +93,56 @@ namespace _02_Verlinkte_Listen_Generisch
 
         public void Remove(ISelector selector)
         {
-            while (firstEntry != null && selector.Select(firstEntry.data))
+            while (firstEntry != null && selector.Select(firstEntry.Data))
             {
-                firstEntry = firstEntry.next;
+                firstEntry = firstEntry.Next;
             }
 
-            ListEntry current = firstEntry;
+            ListEntry<T> current = firstEntry;
 
-            while (current != null && current.next != null)
+            while (current != null && current.Next != null)
             {
-                if (selector.Select(current.next.data))
+                if (selector.Select(current.Next.Data))
                 {
-                    current.next = current.next.next;
+                    current.Next = current.Next.Next;
                 }
                 else
                 {
-                    current = current.next;
+                    current = current.Next;
                 }
             }
         }
 
     }
-    class ListEntry
+    class ListEntry<T>
     {
-        public ListEntry next = null;
-        public object data;
+        public T Data;
+        public ListEntry<T> Next;
 
-        public ListEntry(object data)
+        public ListEntry(T data)
         {
-            this.data = data;
+            Data = data;
         }
     }
+
 
     internal class Program
     {
         static void Main(string[] args)
         {
-            GenericList list = new GenericList();
-            list.Add("Welt");
-            list.Add("Hallo");
-            list.Add(12345);
-            list.Add("Test");
-            list.Add(999);
+            GenericList<string> list = new GenericList<string>();
+            list.Add("F");
+            list.Add("E");
+            list.Add("D");
+            list.Add("C");
+            list.Add("B");
+            list.Add("A");
 
-            Console.WriteLine("Original-Liste:");
-            list.Output();
-
-            Console.WriteLine("Pop Item: " + list.Pop());
-
-            Console.WriteLine("\nAlle Strings in neuer Liste:");
-            GenericList stringList = list.FindAll(new FindStringSelector());
-            stringList.Output();
-
-            Console.WriteLine("Suche ersten String: " + list.FindFirst(new FindStringSelector()));
+            list.Output();           // A B C D E F
+            list.ShiftFwd(2);
+            list.Output();           // C D E F A B
+            list.ShiftBwd(2);
+            list.Output();           // A B C D E F
 
             Console.ReadKey();
         }
