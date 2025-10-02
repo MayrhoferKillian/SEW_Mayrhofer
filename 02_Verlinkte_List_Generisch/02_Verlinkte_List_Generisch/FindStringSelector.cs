@@ -10,7 +10,7 @@ namespace _02_Verlinkte_List_Generisch
     {
         public bool Select(object obj)
         {
-            return obj is string s;
+            return obj is string;
         }
     }
 

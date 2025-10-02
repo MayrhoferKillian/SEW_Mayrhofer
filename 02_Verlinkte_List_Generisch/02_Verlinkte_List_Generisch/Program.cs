@@ -73,6 +73,23 @@ namespace _02_Verlinkte_Listen_Generisch
 
             return null; 
         }
+
+        public GenericList FindAll(ISelector selector)
+        {
+            GenericList result = new GenericList();
+            ListEntry entry = firstEntry;
+
+            while (entry != null)
+            {
+                if (selector.Select(entry.data)) 
+                {
+                    result.Add(entry.data);
+                }
+                entry = entry.next;
+            }
+
+            return result;
+        }
     }
     class ListEntry
     {
@@ -93,11 +110,19 @@ namespace _02_Verlinkte_Listen_Generisch
             list.Add("Welt");
             list.Add("Hallo");
             list.Add(12345);
-            list.Output();
-            Console.WriteLine("Pop Item: " + list.Pop());
+            list.Add("Test");
+            list.Add(999);
+
+            Console.WriteLine("Original-Liste:");
             list.Output();
 
-            Console.WriteLine("Suche ersten String:" + list.FindFirst(new FindStringSelector()));
+            Console.WriteLine("Pop Item: " + list.Pop());
+
+            Console.WriteLine("\nAlle Strings in neuer Liste:");
+            GenericList stringList = list.FindAll(new FindStringSelector());
+            stringList.Output();
+
+            Console.WriteLine("Suche ersten String: " + list.FindFirst(new FindStringSelector()));
 
             Console.ReadKey();
         }
