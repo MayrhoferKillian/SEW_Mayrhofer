@@ -23,6 +23,17 @@ namespace LoggingDelegates
             }
         }
 
+        public void PrintMessagedFiltered(Predicate<string> filterFunc)
+        {
+            foreach (var msg in logMessages)
+            {
+                if (filterFunc(msg))
+                {
+                    Console.WriteLine(msg);
+                }
+            }
+        }
+
        
     }
 
@@ -43,19 +54,35 @@ namespace LoggingDelegates
             return msg.Length > 30 ? msg.Substring(0, 30) : msg;
         }
 
+        public static bool FilterError(string msg)
+        {
+            return msg.Contains("Error", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool FilterWarning(string msg)
+        {
+            return msg.Contains("Warning", StringComparison.OrdinalIgnoreCase);
+        }
+
         static void Main(string[] args)
         {
             Logging logger = new Logging();
 
             logger.AddLogMessage("System gestartet");
-            logger.AddLogMessage("Ein sehr langer Text, der gekürzt werden sollte...");
+            logger.AddLogMessage("Warning: Niedriger Speicherstand");
+            logger.AddLogMessage("Error: Verbindung fehlgeschlagen");
+            logger.AddLogMessage("Benutzer angemeldet");
 
-            Console.WriteLine("=== Mit Datum/Zeit ===");
-            logger.PrintMessages(FormatAddDateTime);
+            Console.WriteLine("=== Alle Nachrichten ====");
+            logger.PrintMessages(null);
 
-            Console.WriteLine("\n=== Auf 30 Zeichen begrenzt ===");
-            logger.PrintMessages(FormatLengthLimit);
 
+            Console.WriteLine("=== Alle Errors ====");
+            logger.PrintMessagedFiltered(FilterError);
+
+
+            Console.WriteLine("=== Alle Warnings ====");
+            logger.PrintMessagedFiltered(FilterWarning);
 
         }
     }
