@@ -34,7 +34,7 @@ namespace FantasyKampf
 
         public static void Heilen(Charakter angreifer, Charakter ziel)
         {
-            angreifer.Leben += 10;
+            angreifer.Leben += 35;
             if (angreifer.Leben > 100) angreifer.Leben = 100;
 
             ziel.Leben += 5;
