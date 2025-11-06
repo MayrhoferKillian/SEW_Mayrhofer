@@ -13,6 +13,8 @@ class Program
 
     static void Main()
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
         for (int i = 0; i < 10; i++)
         {
             double startBalance = random.Next(500, 2000);
