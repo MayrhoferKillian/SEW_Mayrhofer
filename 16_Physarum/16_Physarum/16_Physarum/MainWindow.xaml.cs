@@ -18,7 +18,7 @@ namespace _16_Physarum
     {
         // 1. Einstellungen
         int width = 400; int height = 300;
-        byte[] pixelDaten; // Hier speichern wir die Helligkeit jedes Pixels
+        byte[] pixelDaten; // Helligkeit jedes Pixels 0-255
         double[] partikelX, partikelY, partikelWinkel;
         WriteableBitmap bitmap;
         Random rnd = new Random();
@@ -28,9 +28,9 @@ namespace _16_Physarum
             InitializeComponent();
 
             // Initialisiere die Leinwand (Graustufen)
-            bitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Gray8, null);
-            Spielfeld.Source = bitmap;
-            pixelDaten = new byte[width * height];
+            bitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Gray8, null); //neue Instanz von Objekt Writablebitmap
+            Spielfeld.Source = bitmap; //Spielfeld im xaml
+            pixelDaten = new byte[width * height]; //Speicherplatz reserviert
 
             // 1000 Partikel zufällig platzieren
             partikelX = new double[1000];
@@ -41,7 +41,7 @@ namespace _16_Physarum
             {
                 partikelX[i] = rnd.Next(width);
                 partikelY[i] = rnd.Next(height);
-                partikelWinkel[i] = rnd.NextDouble() * Math.PI * 2;
+                partikelWinkel[i] = rnd.NextDouble() * Math.PI * 2; //startposition/winkel des partikels 
             }
 
             // Startet die Schleife (läuft so oft wie der Monitor aktualisiert)
@@ -52,33 +52,24 @@ namespace _16_Physarum
         {
             for (int i = 0; i < 1000; i++)
             {
-                // A. Bewegen
-                partikelX[i] += Math.Cos(partikelWinkel[i]);
+            
+                partikelX[i] += Math.Cos(partikelWinkel[i]); //berechnet wie weit sich der partikel bewegt anhand vom  winkel
                 partikelY[i] += Math.Sin(partikelWinkel[i]);
 
-                // B. Ränder prüfen (wenn draußen, dann umdrehen)
+                // Ränder prüfen
                 if (partikelX[i] < 0 || partikelX[i] >= width || partikelY[i] < 0 || partikelY[i] >= height)
                 {
-                    partikelX[i] = Math.Clamp(partikelX[i], 0, width - 1);
+                    partikelX[i] = Math.Clamp(partikelX[i], 0, width - 1); //setzt den pixel auf den rand zurück und 
                     partikelY[i] = Math.Clamp(partikelY[i], 0, height - 1);
-                    partikelWinkel[i] = rnd.NextDouble() * Math.PI * 2;
+                    partikelWinkel[i] = rnd.NextDouble() * Math.PI * 2; //schickt den pixel in eine rnd richtung
                 }
 
-                // C. Spur hinterlassen (Pixel hell machen)
-                int index = (int)partikelY[i] * width + (int)partikelX[i];
-                pixelDaten[index] = 255;
-
-                // D. Ein bisschen zufällig drehen (damit es organisch aussieht)
-                partikelWinkel[i] += (rnd.NextDouble() - 0.5) * 0.2;
+                // Spur hinterlassen 
+                int index = (int)partikelY[i] * width + (int)partikelX[i]; //2D in 1D für array umrechnen
+                pixelDaten[index] = 255; //ausgewählter index auf 255 gesetzt
             }
 
-            // E. Alles ein bisschen verblassen lassen (Decay)
-            for (int j = 0; j < pixelDaten.Length; j++)
-            {
-                if (pixelDaten[j] > 0) pixelDaten[j] = (byte)(pixelDaten[j] * 0.9);
-            }
-
-            // F. Das Array ins Bild zeichnen
+            // Das Array ins Bild zeichnen
             bitmap.WritePixels(new Int32Rect(0, 0, width, height), pixelDaten, width, 0);
         }
     }
