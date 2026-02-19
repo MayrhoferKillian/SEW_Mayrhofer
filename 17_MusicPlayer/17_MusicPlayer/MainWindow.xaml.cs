@@ -12,12 +12,8 @@ using System.Windows.Shapes;
 
 namespace _17_MusicPlayer
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        // Das ist unser unsichtbarer Plattenspieler
         private MediaPlayer _mediaPlayer = new MediaPlayer();
 
         public MainWindow()
@@ -25,7 +21,6 @@ namespace _17_MusicPlayer
             InitializeComponent();
         }
 
-        // Song zur Liste hinzufügen
         private void AddSong_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -37,7 +32,6 @@ namespace _17_MusicPlayer
             }
         }
 
-        // Den ausgewählten Song abspielen
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             if (Playlist.SelectedItem != null)
@@ -52,7 +46,6 @@ namespace _17_MusicPlayer
             }
         }
 
-        // Musik stoppen
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
             _mediaPlayer.Stop();
