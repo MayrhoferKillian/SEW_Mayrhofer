@@ -1,0 +1,47 @@
+﻿<Window x:Class="_20_ClickCounter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewmodels="clr-namespace:_20_ClickCounter.ViewModels"
+        Title="Klick-Counter mit MVVM" Height="450" Width="400">
+
+    <Window.DataContext>
+        <viewmodels:MainViewModel />
+    </Window.DataContext>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0" 
+                Content="Zeitpunkt loggen" 
+                Command="{Binding LogClickCommand}"
+                FontSize="18" FontWeight="Bold" Padding="15" Margin="0,0,0,15" />
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding LogEntries}" Margin="0,0,0,15">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text="Klick #" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Id}" FontWeight="Bold" Margin="0,0,15,0" />
+
+                        <TextBlock Text="{Binding Timestamp, StringFormat=\{0:HH\\:mm\\:ss\\:fff\}}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Grid.Row="2" Margin="0,0,0,15" FontSize="14">
+            <Run Text="Gesamtanzahl Klicks: " FontWeight="SemiBold" />
+            <Run Text="{Binding TotalClickCount, Mode=OneWay}" FontWeight="Bold" />
+        </TextBlock>
+
+        <Button Grid.Row="3" 
+                Content="Liste leeren" 
+                Command="{Binding ClearListCommand}"
+                FontSize="14" Padding="10" />
+    </Grid>
+</Window>
