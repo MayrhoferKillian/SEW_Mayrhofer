@@ -20,7 +20,8 @@ namespace FitnessCenterApi.Controllers
         [HttpGet]
         public async Task<ActionsResult<IEnumerable<Course>>> GetCourses()
         {
-            return await _context.Courses.Include(c => c.Buch)
+            return await _context.Courses.Include(c => c.Buch);
         }
     }
 }
+
