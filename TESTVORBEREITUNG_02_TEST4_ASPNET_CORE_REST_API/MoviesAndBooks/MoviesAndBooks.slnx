@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="RazorPagesMovie/RazorPagesMovie.csproj" />
+  <Project Path="RestApiBook/RestApiBook.csproj" Id="9b10dd41-e19f-40c4-8fce-a7ea66f7ef84" />
+</Solution>
