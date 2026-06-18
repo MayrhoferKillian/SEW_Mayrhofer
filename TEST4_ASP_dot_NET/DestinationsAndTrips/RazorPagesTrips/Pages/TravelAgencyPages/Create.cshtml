@@ -1,0 +1,44 @@
+﻿@page
+@model RazorPagesTrips.Pages.TravelAgencyPages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Travel Agency</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TravelAgency.Name" class="control-label"></label>
+                <input asp-for="TravelAgency.Name" class="form-control" />
+                <span asp-validation-for="TravelAgency.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TravelAgency.Country" class="control-label"></label>
+                <input asp-for="TravelAgency.Country" class="form-control" />
+                <span asp-validation-for="TravelAgency.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TravelAgency.Rating" class="control-label"></label>
+                <input asp-for="TravelAgency.Rating" class="form-control" />
+                <span asp-validation-for="TravelAgency.Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
